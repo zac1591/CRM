@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+//components
+import Header from "./components/Header/Header";
+import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
+//pages
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Contacts from "./pages/Contacts/Contacts";
+import UserPreferences from "./pages/UserPreferences/UserPreferences";
+import Authentication from "./pages/Authentication/Authentication";
+
+//temporal context
+import UserProvider from "./store/UserProvider";
+import NothingToSee from "./pages/NothingToSee/NothingToSee";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<BrowserRouter>
+			<Header />
+			<Routes>
+				<Route path="/" element={<Dashboard />} />
+
+				<Route path="/authentication" element={<Authentication />}>
+					<Route path="sign-in" element={<SignIn />} />
+					<Route path="sign-up" element={<SignUp />} />
+				</Route>
+
+				<Route path="contacts" element={<Contacts />} />
+				<Route path="user-preferences" element={<UserPreferences />} />
+				<Route path="*" element={<NothingToSee />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;

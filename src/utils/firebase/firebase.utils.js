@@ -5,7 +5,8 @@ import {
 	GoogleAuthProvider,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
-	signOut
+	signOut,
+	onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -16,7 +17,7 @@ const firebaseConfig = {
 	projectId: "crm-app-c3a43",
 	storageBucket: "crm-app-c3a43.appspot.com",
 	messagingSenderId: "621343870752",
-	appId: "1:621343870752:web:32579d9814a68434fbd145"
+	appId: "1:621343870752:web:32579d9814a68434fbd145",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -54,7 +55,7 @@ export const createUserDocumentFromAuth = async (
 				displayName,
 				email,
 				createdAt,
-				...additionalInfo
+				...additionalInfo,
 			});
 		} catch (error) {
 			console.log("Error creating user", error.message);
@@ -77,3 +78,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = () => signOut(auth);
+
+export const onAuthStateChangedListener = callback =>
+	onAuthStateChanged(auth, callback);

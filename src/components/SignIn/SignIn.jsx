@@ -1,18 +1,14 @@
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import {
 	signInWithGooglePopup,
 	createUserDocumentFromAuth,
-	signInAuthUserWithEmailAndPassword
+	signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
 //components
 import Button from "../Button/Button";
 import Input from "../Input/Input";
-
-//context
-import UserContext from "../../store/user-context";
 
 //assets
 import sampleImg from "../../assets/background-img-6.jpeg";
@@ -20,21 +16,18 @@ import sampleImg from "../../assets/background-img-6.jpeg";
 import styles from "./signIn.module.scss";
 
 function SignIn() {
-	const { setCurrentUser, currentUser } = useContext(UserContext);
-
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
 	} = useForm({
 		defaultValues: {
 			email: "",
-			password: ""
-		}
+			password: "",
+		},
 	});
-	const logGoogleUserhandler = async () => {
-		const { user } = await signInWithGooglePopup();
-		await createUserDocumentFromAuth(user);
+	const logGoogleUserHandler = async () => {
+		await signInWithGooglePopup();
 	};
 
 	const loginHandler = async (data, event) => {
@@ -47,9 +40,8 @@ function SignIn() {
 				email,
 				password
 			);
-			setCurrentUser(user);
+
 			event.target.reset();
-			console.log(currentUser);
 		} catch (error) {
 			switch (error.code) {
 				case "auth/wrong-password":
@@ -69,7 +61,7 @@ function SignIn() {
 				<div className={styles.loginArea}>
 					<header className={styles.header}>
 						<h1 style={{ color: "#008B95", letterSpacing: "1.5px" }}>
-							FINANCES
+							CRM
 						</h1>
 					</header>
 					<h1 className={styles.headerLogin}>Log in</h1>
@@ -102,7 +94,7 @@ function SignIn() {
 							<Button
 								type="button"
 								isGoogleSignIn
-								onClick={logGoogleUserhandler}
+								onClick={logGoogleUserHandler}
 							>
 								Sign in with Google
 							</Button>
